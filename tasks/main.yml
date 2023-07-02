@@ -156,6 +156,7 @@
   when: not item in local_users
   loop: "{{ ldap_users }}"
   tags:
+    - dir
     - debug
 
 #- name: Purge undefined users
