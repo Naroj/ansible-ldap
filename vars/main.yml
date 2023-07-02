@@ -29,14 +29,6 @@ ldap_users:
     uidNumber: "1001"
     gidNumber: 2000
     userPassword: "{SSHA256}9n2FwTuPZUE9eZKvZhb3IFJa+TUj224H2IjDFYxLW7IDLp5PbtdUkw=="
-  - name: catherine
-    uidNumber: "1002"
-    gidNumber: 2000
-    userPassword: "{SSHA256}9n2FwTuPZUE9eZKvZhb3IFJa+TUj224H2IjDFYxLW7IDLp5PbtdUkw=="
-
-
-
-
 
 
 pkgs:
