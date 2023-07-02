@@ -128,7 +128,6 @@
     scope: "children"
     filter: "(objectClass=posixAccount)"
     attrs:
-    - "cn"
     - "uidNumber"
   args: "{{ ldap_auth }}"
   register: ldap_uids
@@ -138,7 +137,7 @@
 
 - name: Collect user names from inventory
   set_fact:
-    local_users: "{{ ldap_users | selectattr('name') | map(attribute='name') }}"
+    local_users: "{{ ldap_users | selectattr('uidNumber') | map(attribute='uidNumber') }}"
   tags:
     - debug
     - dir
