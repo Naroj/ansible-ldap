@@ -137,14 +137,14 @@
 
 - name: Collect user names from inventory
   set_fact:
-    local_users: "{{ ldap_users | selectattr('uidNumber') | map(attribute='uidNumber') }}"
+    local_users: "{{ ldap_users | selectattr('cn') | map(attribute='cn') }}"
   tags:
     - debug
     - dir
 
 - name: LDAP user names
   set_fact:
-    ldap_users: "{{ ldap_uids.results | selectattr('uidNumber') | map(attribute='uidNumber') }}"
+    ldap_users: "{{ ldap_uids.results | selectattr('cn') | map(attribute='cn') }}"
   tags:
     - debug
     - dir
