@@ -1,10 +1,9 @@
-- name: conduct auth
+- name: Fetch auth data from ENV
   set_fact:
     ldap_auth:
       server_uri: "{{ lookup('env', 'LDAP_URI') }}" 
       bind_dn: "{{ lookup('env', 'DIR_ADMIN') }}" 
-        cn=Directory Manager
-      bind_pw: boinkboink
+      bind_pw: "{{ lookup('env', 'BIND_PW') }}"
 
 - name: Root suffix
   community.general.ldap_entry:
@@ -14,8 +13,6 @@
       - domain
     state: present
   args: "{{ ldap_auth }}"
-  tags:
-    - dir
 
 - name: Make people OU
   community.general.ldap_entry:
@@ -23,8 +20,6 @@
     objectClass: organizationalUnit
     state: present
   args: "{{ ldap_auth }}"
-  tags:
-    - dir
 
 - name: Make group OU
   community.general.ldap_entry:
@@ -32,8 +27,6 @@
     objectClass: organizationalUnit
     state: present
   args: "{{ ldap_auth }}"
-  tags:
-    - dir
 
 - name: Label groups
   community.general.ldap_entry:
@@ -47,8 +40,6 @@
     state: present
   args: "{{ ldap_auth }}"
   loop: "{{ ldap_groups }}"
-  tags:
-    - dir
 
 - name: PosixUsers
   community.general.ldap_entry:
@@ -64,9 +55,7 @@
       homeDirectory: "/home/{{ item.name }}"
     state: present
   args: "{{ ldap_auth }}"
-  loop: "{{ ldap_users }}"
-  tags:
-    - dir
+  loop: "{{ ldap_people }}"
 
 - name: Fetch users from LDAP
   community.general.ldap_search:
@@ -77,23 +66,14 @@
     - "cn"
   args: "{{ ldap_auth }}"
   register: ldap_uids
-  tags:
-    - debug
-    - dir
 
 - name: Collect user names from inventory
   set_fact:
     local_users: "{{ ldap_users | selectattr('name') | map(attribute='name') }}"
-  tags:
-    - debug
-    - dir
 
 - name: LDAP user names
   set_fact:
     ldap_users: "{{ ldap_uids.results | selectattr('cn') | map(attribute='cn') }}"
-  tags:
-    - debug
-    - dir
 
 - name: Remove legacy people
   community.general.ldap_entry:
@@ -104,6 +84,3 @@
   args: "{{ ldap_auth }}"
   when: not item in local_users
   loop: "{{ ldap_users }}"
-  tags:
-    - debug
-    - dir

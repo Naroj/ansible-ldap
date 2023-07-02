@@ -15,7 +15,7 @@ ldap_groups:
     gidNumber: 2002
     descr: Databalance
 
-ldap_users:
+ldap_people:
   - name: harry
     uidNumber: "1000"
     gidNumber: 2000
