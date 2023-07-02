@@ -144,7 +144,7 @@
 
 - name: LDAP user names
   set_fact:
-    ldap_users: "{{ ldap_uids.results | selectattr('cn') | map(attribute='cn') }}"
+    ldap_users: "{{ ldap_uids.results }}"
   tags:
     - debug
     - dir
