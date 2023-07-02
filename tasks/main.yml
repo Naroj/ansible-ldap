@@ -151,7 +151,7 @@
 
 - name: Remove legacy people
   community.general.ldap_entry:
-    dn: "cn={{ item.name }},{{ people_ou }},{{ suffix }}"
+    dn: "cn={{ item }},{{ people_ou }},{{ suffix }}"
     objectClass:
       - posixAccount
     state: absent
