@@ -145,7 +145,7 @@
 
 - name: LDAP user names
   set_fact:
-    ldap_users: "{{ ldap_uids.results }}"
+    ldap_users: "{{ ldap_uids.results | selectattr('cn') | map(attribute='cn') }}"
   tags:
     - debug
     - dir
@@ -153,7 +153,7 @@
 - name: show fact
   debug:
     msg: "{{ item }}"
-  when: not item in local_users
+  #when: not item in local_users
   loop: "{{ ldap_users }}"
   tags:
     - dir
