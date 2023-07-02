@@ -1,12 +1,12 @@
 - name: conduct auth
   set_fact:
-    auth:
+    oink:
       uri: "{{ lookup('env', 'LDAP_URI') }}" 
       bind_dn: cn=Directory Manager
 
 - name: ddd
   debug:
-    msg: "{{ auth }}" 
+    msg: "{{ oink }}" 
       
 
 - name: Root suffix
