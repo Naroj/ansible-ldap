@@ -2,13 +2,9 @@
   set_fact:
     ldap_auth:
       server_uri: "{{ lookup('env', 'LDAP_URI') }}" 
-      bind_dn: cn=Directory Manager
+      bind_dn: "{{ lookup('env', 'DIR_ADMIN') }}" 
+        cn=Directory Manager
       bind_pw: boinkboink
-
-- name: ddd
-  debug:
-    msg: "{{ ldap_auth }}" 
-      
 
 - name: Root suffix
   community.general.ldap_entry:
