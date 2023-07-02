@@ -124,7 +124,7 @@
 
 - name: Fetch users from LDAP
   community.general.ldap_search:
-    dn: "{{ people_ou }},{{ suffix }}"
+    dn: "{{ suffix }}"
     #filter: "(objectClass=posixAccount)"
     #attrs:
     #- "cn"
