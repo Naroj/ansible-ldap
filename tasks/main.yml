@@ -3,7 +3,7 @@
     ldap_auth:
       server_uri: "{{ lookup('env', 'LDAP_URI') }}" 
       bind_dn: cn=Directory Manager
-      bind_pwd: boinkboink
+      bind_pw: boinkboink
 
 - name: ddd
   debug:
