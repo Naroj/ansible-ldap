@@ -149,21 +149,6 @@
     - debug
     - dir
 
-#- name: Remove an attribute with a specific value
-#  community.general.ldap_attrs:
-#    dn: uid=jdoe,ou=people,dc=example,dc=com
-#    attributes:
-#        description: "An example user account"
-#    state: absent
-
-- name: try this
-  debug:
-    msg: "{{ item }}"
-  loop: "{{ ldap_users }}"
-  tags:
-    - dir
-    - debug
-
 - name: Remove legacy people
   community.general.ldap_entry:
     dn: "cn={{ item }},{{ people_ou }},{{ suffix }}"
@@ -174,4 +159,5 @@
   when: not item in local_users
   loop: "{{ ldap_users }}"
   tags:
+    - debug
     - dir
