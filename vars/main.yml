@@ -25,10 +25,6 @@ ldap_users:
     uidNumber: 1005
     gidNumber: 2000
     userPassword: "{SSHA256}9n2FwTuPZUE9eZKvZhb3IFJa+TUj224H2IjDFYxLW7IDLp5PbtdUkw=="
-  - name: piet
-    uidNumber: 1001
-    gidNumber: 2001
-    userPassword: "{SSHA256}9n2FwTuPZUE9eZKvZhb3IFJa+TUj224H2IjDFYxLW7IDLp5PbtdUkw=="
 
 
 pkgs:
