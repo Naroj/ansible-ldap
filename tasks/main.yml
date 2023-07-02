@@ -127,9 +127,9 @@
     dn: "{{ people_ou }},{{ suffix }}"
     scope: "children"
     filter: "(objectClass=posixAccount)"
-    #attrs:
-    #- "cn"
-    # - "uidNumber"
+    attrs:
+    - "cn"
+    - "uidNumber"
   args: "{{ ldap_auth }}"
   register: ldap_uids
   tags:
