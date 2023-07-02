@@ -1,6 +1,6 @@
 - name: conduct auth
   set_fact:
-    uri: "{{ lookup('env'), 'LDAP_URI'}}" 
+    uri: "{{ lookup('env', 'LDAP_URI') }}" 
 
 - name: ddd
   debug:
