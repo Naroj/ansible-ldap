@@ -126,9 +126,9 @@
   community.general.ldap_search:
     dn: "{{ people_ou }},{{ suffix }}"
     filter: "(objectClass=posixAccount)"
-    attrs:
-      - "cn"
-      - "uidNumber"
+      #attrs:
+      #- "cn"
+      # - "uidNumber"
   args: "{{ ldap_auth }}"
   register: ldap_uids
   tags:
