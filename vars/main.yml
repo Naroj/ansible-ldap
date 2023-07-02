@@ -20,3 +20,7 @@ ldap_people:
     uidNumber: "1001"
     gidNumber: 2000
     userPassword: "{SSHA256}9n2FwTuPZUE9eZKvZhb3IFJa+TUj224H2IjDFYxLW7IDLp5PbtdUkw=="
+  - name: yip
+    uidNumber: "1002"
+    gidNumber: 2000
+    userPassword: "{SSHA256}9n2FwTuPZUE9eZKvZhb3IFJa+TUj224H2IjDFYxLW7IDLp5PbtdUkw=="
