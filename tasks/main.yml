@@ -149,10 +149,10 @@
     - debug
     - dir
 
-- name: show fact
+- name: show diff
   debug:
     msg: "{{ item }}"
-  #when: not item in local_users
+  when: not item in local_users
   loop: "{{ ldap_users }}"
   tags:
     - dir
