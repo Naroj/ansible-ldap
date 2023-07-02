@@ -6,7 +6,7 @@
       - top
       - domain
     state: present
-    server_uri: lookup('ansible.builtin.env', 'LDAP_URI')
+    server_uri: ldap://192.168.20.23:3389
     bind_dn: cn=Directory Manager
     bind_pw: boinkboink
   tags:
