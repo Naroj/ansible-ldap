@@ -1,0 +1,44 @@
+suffix: dc=platform
+admin_dn: cn=Directory Manager
+
+ldap_auth:
+  server_uri: ldap://localhost
+  bind_dn: cn=Directory Manager
+  bind_pw: boinkboink
+
+people_ou: ou=people
+group_ou: ou=labels
+
+ldap_groups:
+  - name: itcreation
+    gidNumber: 2000
+    descr: IT Creation
+  - name: sjsolutions
+    gidNumber: 2001
+    descr: SJ-Solutions
+  - name: databalance
+    gidNumber: 2002
+    descr: Databalance
+
+ldap_users:
+  - name: harry
+    uidNumber: 1000
+    gidNumber: 2000
+    userPassword: "{SSHA256}9n2FwTuPZUE9eZKvZhb3IFJa+TUj224H2IjDFYxLW7IDLp5PbtdUkw=="
+  - name: piet
+    uidNumber: 1001
+    gidNumber: 2001
+    userPassword: "{SSHA256}9n2FwTuPZUE9eZKvZhb3IFJa+TUj224H2IjDFYxLW7IDLp5PbtdUkw=="
+
+
+pkgs:
+  - gcc
+  - python3.11-pip
+  - python3.11-devel
+  - openldap-clients
+  - openldap-devel
+  - 389-ds-base
+  - 389-ds-base-libs
+
+pip_modules:
+  - python-ldap

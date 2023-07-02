@@ -1,0 +1,161 @@
+- name: OS packages
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ pkgs }}"
+  tags:
+    - os
+
+- name: PIP modules
+  ansible.builtin.pip:
+    executable: "/usr/bin/pip3.11"
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ pip_modules }}"
+  tags:
+    - os
+
+
+- name: init-file ldap
+  template:
+    src: templates/ldap_init.j2
+    dest: /root/ldap_init
+  tags:
+    - os
+
+
+- name: Dirsrv check
+  command: systemctl is-enabled "dirsrv@{{ inventory_hostname }}.service"
+  register: dirsrv_check
+  changed_when: false
+  ignore_errors: true
+  tags:
+    - os
+
+- name: LDAP DB init
+  ansible.builtin.command:
+    cmd: /sbin/dscreate from-file /root/ldap_init
+  when: dirsrv_check.stdout == "disabled"
+  register: ldap_init
+  tags:
+    - os
+
+- name: Dirsrv service
+  ansible.builtin.systemd:
+    name: "dirsrv@{{ inventory_hostname }}"
+    state: started
+    enabled: true
+  tags:
+    - os
+
+
+- name: Wait for rebooted servers to come back
+  wait_for:
+    port: 636
+    connect_timeout: 20
+    sleep: 5
+    delay: 5
+    timeout: 60
+  when: ldap_init.changed
+  tags:
+    - os
+
+- name: Root suffix
+  community.general.ldap_entry:
+    dn: "{{ suffix }}"
+    objectClass:
+      - top
+      - domain
+    state: present
+  args: "{{ ldap_auth }}"
+  tags:
+    - dir
+
+- name: Make people OU
+  community.general.ldap_entry:
+    dn: "{{ people_ou }},{{ suffix }}"
+    objectClass: organizationalUnit
+    state: present
+  args: "{{ ldap_auth }}"
+  tags:
+    - dir
+
+- name: Make group OU
+  community.general.ldap_entry:
+    dn: "{{ group_ou }},{{ suffix }}"
+    objectClass: organizationalUnit
+    state: present
+  args: "{{ ldap_auth }}"
+  tags:
+    - dir
+
+- name: Label groups
+  community.general.ldap_entry:
+    dn: "cn={{ item.name }},{{ group_ou }},{{ suffix }}"
+    objectClass:
+      - groupOfNames
+    attributes:
+      cn: "{{ item.name }}"
+      description: "{{ item.descr }}"
+      member: "cn=piet,ou=people,dc=platform"
+    state: present
+  args: "{{ ldap_auth }}"
+  loop: "{{ ldap_groups }}"
+  tags:
+    - dir
+
+- name: PosixUsers
+  community.general.ldap_entry:
+    dn: "cn={{ item.name }},{{ people_ou }},{{ suffix }}"
+    objectClass:
+      - posixAccount
+    attributes:
+      cn: "{{ item.name }}"
+      uid: "{{ item.name }}"
+      uidNumber: "{{ item.uidNumber }}"
+      gidNumber: "{{ item.gidNumber }}"
+      userPassword: "{{ item.userPassword }}"
+      homeDirectory: "/home/{{ item.name }}"
+    state: present
+  args: "{{ ldap_auth }}"
+  loop: "{{ ldap_users }}"
+  tags:
+    - dir
+
+- name: Fetch users from LDAP
+  community.general.ldap_search:
+    dn: "{{ suffix }}"
+    scope: "onelevel"
+    filter: "(objectClass=posixAccount)"
+    attrs:
+      - "cn"
+      - "uidNumber"
+  args: "{{ ldap_auth }}"
+  register: ldap_uids
+  tags:
+    - debug
+    - dir
+
+- name: Collect user names from inventory
+  set_fact:
+    local_users: "{{ ldap_users | selectattr('name') | map(attribute='name') }}"
+  tags:
+    - debug
+    - dir
+
+- name: LDAP user names
+  set_fact:
+    ldap_users: "{{ ldap_uids.results | selectattr('cn') | map(attribute='cn') }}"
+  tags:
+    - debug
+    - dir
+
+- name: show fact
+  debug:
+    msg: "{{ item }}"
+  when: not item in local_users
+  loop: "{{ ldap_users }}"
+  tags:
+    - debug
+
+#- name: Purge undefined users
