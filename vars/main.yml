@@ -22,7 +22,7 @@ ldap_groups:
 
 ldap_users:
   - name: harry
-    uidNumber: 1005
+    uidNumber: 1000
     gidNumber: 2000
     userPassword: "{SSHA256}9n2FwTuPZUE9eZKvZhb3IFJa+TUj224H2IjDFYxLW7IDLp5PbtdUkw=="
 
