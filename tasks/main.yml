@@ -1,12 +1,13 @@
 - name: conduct auth
   set_fact:
-    oink:
-      uri: "{{ lookup('env', 'LDAP_URI') }}" 
+    ldap_auth:
+      server_uri: "{{ lookup('env', 'LDAP_URI') }}" 
       bind_dn: cn=Directory Manager
+      bind_pwd: boinkboink
 
 - name: ddd
   debug:
-    msg: "{{ oink }}" 
+    msg: "{{ ldap_auth }}" 
       
 
 - name: Root suffix
@@ -16,9 +17,7 @@
       - top
       - domain
     state: present
-    server_uri: ldap://192.168.20.23:3389
-    bind_dn: cn=Directory Manager
-    bind_pw: boinkboink
+  args: "{{ ldap_auth }}"
   tags:
     - dir
 
