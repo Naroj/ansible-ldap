@@ -125,7 +125,6 @@
 - name: Fetch users from LDAP
   community.general.ldap_search:
     dn: "{{ suffix }}"
-    scope: "onelevel"
     filter: "(objectClass=posixAccount)"
     attrs:
       - "cn"
