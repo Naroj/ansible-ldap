@@ -16,10 +16,6 @@ ldap_groups:
     descr: Databalance
 
 ldap_people:
-  - name: harry
-    uidNumber: "1000"
-    gidNumber: 2000
-    userPassword: "{SSHA256}9n2FwTuPZUE9eZKvZhb3IFJa+TUj224H2IjDFYxLW7IDLp5PbtdUkw=="
   - name: bernard
     uidNumber: "1001"
     gidNumber: 2000
