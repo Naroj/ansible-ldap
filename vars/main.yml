@@ -2,7 +2,7 @@ suffix: dc=platform
 admin_dn: cn=Directory Manager
 
 ldap_auth:
-  server_uri: ldap://192.168.20.23:3389
+  server_uri: lookup('ansible.builtin.env', 'LDAP_URI')
   bind_dn: cn=Directory Manager
   bind_pw: boinkboink
 
@@ -29,16 +29,3 @@ ldap_users:
     uidNumber: "1001"
     gidNumber: 2000
     userPassword: "{SSHA256}9n2FwTuPZUE9eZKvZhb3IFJa+TUj224H2IjDFYxLW7IDLp5PbtdUkw=="
-
-
-pkgs:
-  - gcc
-  - python3.11-pip
-  - python3.11-devel
-  - openldap-clients
-  - openldap-devel
-  - 389-ds-base
-  - 389-ds-base-libs
-
-pip_modules:
-  - python-ldap
