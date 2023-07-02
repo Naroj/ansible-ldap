@@ -149,13 +149,15 @@
     - debug
     - dir
 
-- name: show diff
-  debug:
-    msg: "{{ item }}"
+- name: Remove legacy people
+  community.general.ldap_entry:
+    dn: "cn={{ item.name }},{{ people_ou }},{{ suffix }}"
+    objectClass:
+      - posixAccount
+    state: absent
   when: not item in local_users
   loop: "{{ ldap_users }}"
-  tags:
-    - dir
-    - debug
+
+
 
 #- name: Purge undefined users
