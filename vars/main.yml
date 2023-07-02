@@ -2,7 +2,7 @@ suffix: dc=platform
 admin_dn: cn=Directory Manager
 
 ldap_auth:
-  server_uri: ldap://localhost
+  server_uri: ldap://192.168.20.23:3389
   bind_dn: cn=Directory Manager
   bind_pw: boinkboink
 
