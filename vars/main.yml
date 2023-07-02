@@ -1,11 +1,6 @@
 suffix: dc=platform
 admin_dn: cn=Directory Manager
 
-ldap_auth:
-  server_uri: lookup('ansible.builtin.env', 'LDAP_URI')
-  bind_dn: cn=Directory Manager
-  bind_pw: boinkboink
-
 people_ou: ou=people
 group_ou: ou=labels
 

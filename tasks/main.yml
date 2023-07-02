@@ -1,3 +1,11 @@
+- name: set LDAP AUTH
+  set_fact:
+    ldap_auth:
+      server_uri: lookup('ansible.builtin.env', 'LDAP_URI')
+      bind_dn: cn=Directory Manager
+      bind_pw: boinkboink
+
+
 - name: Root suffix
   community.general.ldap_entry:
     dn: "{{ suffix }}"
