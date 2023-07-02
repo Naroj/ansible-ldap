@@ -137,7 +137,7 @@
 
 - name: Collect user names from inventory
   set_fact:
-    local_users: "{{ ldap_users | selectattr('cn') | map(attribute='cn') }}"
+    local_users: "{{ ldap_users | selectattr('name') | map(attribute='name') }}"
   tags:
     - debug
     - dir
